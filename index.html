@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Therapprove - Enhanced Location Filtering</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Enhanced Sidebar with Zip Code Filtering -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Filters</h2>
+                <button class="clear-filters">Clear All</button>
+            </div>
+
+            <!-- NEW: Enhanced Location Filter -->
+            <div class="filter-section">
+                <h3>Location & Distance</h3>
+                
+                <!-- Zip Code Search -->
+                <div class="zip-search">
+                    <label for="zip-input">Search by Zip Code</label>
+                    <div class="zip-input-group">
+                        <input type="text" id="zip-input" placeholder="Enter zip code" maxlength="5">
+                        <button class="zip-search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Radius Selector -->
+                <div class="radius-selector">
+                    <label>Within Distance</label>
+                    <div class="radius-options">
+                        <button class="radius-btn" data-radius="10">10 miles</button>
+                        <button class="radius-btn active" data-radius="25">25 miles</button>
+                        <button class="radius-btn" data-radius="50">50 miles</button>
+                    </div>
+                </div>
+
+                <!-- Quick Location Filters -->
+                <div class="quick-locations">
+                    <label>Near Clinic Locations</label>
+                    <div class="location-chips">
+                        <button class="location-chip" data-location="indianapolis">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Indianapolis
+                        </button>
+                        <button class="location-chip" data-location="louisville">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Louisville
+                        </button>
+                        <button class="location-chip" data-location="lexington">
+                            <i class="fas fa-map-marker-alt"></i>
+                            Lexington
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Existing Filters (keeping current design) -->
+            <div class="filter-section">
+                <h3>Patient Age</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox"> 0-2 years</label>
+                    <label><input type="checkbox"> 3-5 years</label>
+                    <label><input type="checkbox"> 6-12 years</label>
+                    <label><input type="checkbox"> 13+ years</label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3>Therapies Needed</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox"> ABA</label>
+                    <label><input type="checkbox"> Speech</label>
+                    <label><input type="checkbox"> Occupational</label>
+                    <label><input type="checkbox"> Physical</label>
+                </div>
+            </div>
+
+            <div class="filter-section">
+                <h3>Insurance</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox"> Medicaid</label>
+                    <label><input type="checkbox"> Private</label>
+                    <label><input type="checkbox"> Self-Pay</label>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- NEW: Location Insights Banner -->
+            <div class="insights-banner">
+                <div class="insight-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div class="insight-content">
+                        <span class="insight-number">8</span>
+                        <span class="insight-text">patients within 25 miles of Indianapolis</span>
+                    </div>
+                    <button class="insight-action">View</button>
+                </div>
+                <div class="insight-card urgent">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div class="insight-content">
+                        <span class="insight-number">3</span>
+                        <span class="insight-text">high-priority cases near Zionsville</span>
+                    </div>
+                    <button class="insight-action">Prioritize</button>
+                </div>
+            </div>
+
+            <!-- Enhanced Header with Map Toggle -->
+            <div class="content-header">
+                <div class="header-left">
+                    <h1>Patient Wait List</h1>
+                    <span class="patient-count">Showing 24 of 156 patients</span>
+                </div>
+                <div class="header-right">
+                    <div class="view-toggle">
+                        <button class="toggle-btn active" data-view="table">
+                            <i class="fas fa-list"></i>
+                            Table
+                        </button>
+                        <button class="toggle-btn" data-view="map">
+                            <i class="fas fa-map"></i>
+                            Map
+                        </button>
+                    </div>
+                    <button class="export-btn">
+                        <i class="fas fa-download"></i>
+                        Export
+                    </button>
+                </div>
+            </div>
+
+            <!-- Enhanced Patient Table -->
+            <div class="table-container">
+                <table class="patient-table">
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Age</th>
+                            <th>Therapy</th>
+                            <th>Location <i class="fas fa-sort"></i></th>
+                            <th>Distance</th>
+                            <th>Wait Time</th>
+                            <th>Status</th>
+                            <th>Progress</th>
+                            <th>Caregiver</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="patient-row" data-distance="8.2">
+                            <td>
+                                <div class="patient-info">
+                                    <strong>Emma Johnson</strong>
+                                    <span class="patient-id">#12847</span>
+                                </div>
+                            </td>
+                            <td>7</td>
+                            <td><span class="therapy-tag aba">ABA</span></td>
+                            <td>
+                                <div class="location-info">
+                                    <span class="zip-code">46032</span>
+                                    <span class="city">Carmel, IN</span>
+                                </div>
+                            </td>
+                            <td class="distance-cell">
+                                <span class="distance-badge near">8.2 mi</span>
+                            </td>
+                            <td>
+                                <span class="wait-time urgent">8.2 months</span>
+                            </td>
+                            <td><span class="status-badge eval">Eval Scheduled</span></td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%"></div>
+                                </div>
+                                <span class="progress-text">3/5 steps</span>
+                            </td>
+                            <td>Sarah M.</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn" title="Contact">
+                                        <i class="fas fa-phone"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr class="patient-row" data-distance="12.5">
+                            <td>
+                                <div class="patient-info">
+                                    <strong>Lucas Martinez</strong>
+                                    <span class="patient-id">#12848</span>
+                                </div>
+                            </td>
+                            <td>5</td>
+                            <td><span class="therapy-tag speech">Speech</span></td>
+                            <td>
+                                <div class="location-info">
+                                    <span class="zip-code">46077</span>
+                                    <span class="city">Zionsville, IN</span>
+                                </div>
+                            </td>
+                            <td class="distance-cell">
+                                <span class="distance-badge near">12.5 mi</span>
+                            </td>
+                            <td>
+                                <span class="wait-time moderate">3.1 months</span>
+                            </td>
+                            <td><span class="status-badge inquiry">Inquiry</span></td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 20%"></div>
+                                </div>
+                                <span class="progress-text">1/5 steps</span>
+                            </td>
+                            <td>Mike R.</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn" title="Contact">
+                                        <i class="fas fa-phone"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr class="patient-row" data-distance="28.7">
+                            <td>
+                                <div class="patient-info">
+                                    <strong>Sophia Chen</strong>
+                                    <span class="patient-id">#12849</span>
+                                </div>
+                            </td>
+                            <td>4</td>
+                            <td><span class="therapy-tag ot">OT</span></td>
+                            <td>
+                                <div class="location-info">
+                                    <span class="zip-code">46240</span>
+                                    <span class="city">Indianapolis, IN</span>
+                                </div>
+                            </td>
+                            <td class="distance-cell">
+                                <span class="distance-badge far">28.7 mi</span>
+                            </td>
+                            <td>
+                                <span class="wait-time moderate">1.8 months</span>
+                            </td>
+                            <td><span class="status-badge qualifying">Qualifying</span></td>
+                            <td>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 40%"></div>
+                                </div>
+                                <span class="progress-text">2/5 steps</span>
+                            </td>
+                            <td>Jessica L.</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="View Details">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn" title="Contact">
+                                        <i class="fas fa-phone"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- NEW: Map View (Hidden by default) -->
+            <div class="map-container" id="map-view" style="display: none;">
+                <div class="map-placeholder">
+                    <div class="map-controls">
+                        <button class="map-control-btn">
+                            <i class="fas fa-search-plus"></i>
+                        </button>
+                        <button class="map-control-btn">
+                            <i class="fas fa-search-minus"></i>
+                        </button>
+                        <button class="map-control-btn">
+                            <i class="fas fa-crosshairs"></i>
+                        </button>
+                    </div>
+                    
+                    <!-- Simulated Map with Patient Pins -->
+                    <div class="map-pins">
+                        <div class="map-pin near" style="top: 30%; left: 45%;" data-patient="Emma Johnson">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span class="pin-label">Emma J.</span>
+                        </div>
+                        <div class="map-pin near" style="top: 25%; left: 40%;" data-patient="Lucas Martinez">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span class="pin-label">Lucas M.</span>
+                        </div>
+                        <div class="map-pin far" style="top: 60%; left: 55%;" data-patient="Sophia Chen">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span class="pin-label">Sophia C.</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Map Legend -->
+                    <div class="map-legend">
+                        <div class="legend-item">
+                            <div class="legend-color near"></div>
+                            <span>Within 15 miles</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color far"></div>
+                            <span>15+ miles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
