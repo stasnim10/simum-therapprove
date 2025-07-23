@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Therapprove – Availability Scheduler</title>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="availability-styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="logo">
+        <i class="fas fa-heartbeat"></i>
+        <h1>Therapprove</h1>
+      </div>
+      <div class="user-info">
+        <span>Dr. Sarah Johnson</span>
+        <div class="avatar">SJ</div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="page-header">
+        <h2>Set Your Availability</h2>
+        <p>Select slots in 15-minute increments over a 24-hour grid</p>
+      </div>
+
+      <!-- Week Navigation -->
+      <div class="week-navigation">
+        <button id="prev-week" class="week-nav-btn" aria-label="Previous Week">
+          <i class="fas fa-chevron-left"></i> Prev Week
+        </button>
+        <div class="week-info-container">
+          <div id="week-info" class="week-info">Week 30, 2023</div>
+          <div id="week-dates" class="week-dates">Jul 23 – Jul 29</div>
+        </div>
+        <button id="next-week" class="week-nav-btn" aria-label="Next Week">
+          Next Week <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <!-- Day Selector + Copy/Paste -->
+      <div class="controls">
+        <div class="day-selector">
+          <button class="day-btn active" data-day="0">Sunday</button>
+          <button class="day-btn" data-day="1">Monday</button>
+          <button class="day-btn" data-day="2">Tuesday</button>
+          <button class="day-btn" data-day="3">Wednesday</button>
+          <button class="day-btn" data-day="4">Thursday</button>
+          <button class="day-btn" data-day="5">Friday</button>
+          <button class="day-btn" data-day="6">Saturday</button>
+        </div>
+        <button class="action-btn" id="copy-day">Copy Today →</button>
+        <select id="paste-target" class="paste-select">
+          <option value="">Paste to…</option>
+        </select>
+        <!-- AI button will be added by JavaScript -->
+      </div>
+
+      <!-- 24-Hour Grid -->
+      <div class="time-grid-container">
+        <div class="time-grid" id="time-grid"></div>
+      </div>
+
+      <!-- Save & Calendar Preview Toggle -->
+      <div class="action-buttons">
+        <button class="secondary-btn" id="clear-all">Clear All</button>
+        <button class="primary-btn" id="save-availability">Save Availability</button>
+      </div>
+
+      <div class="calendar-toggle">
+        <label class="toggle-switch">
+          <input type="checkbox" id="calendar-view-toggle">
+          <span class="toggle-slider"></span>
+        </label>
+        <span>Preview Calendar</span>
+        
+        <div class="export-options">
+          <button id="export-dropdown-btn" class="export-btn">
+            <i class="fas fa-download"></i> Export
+          </button>
+          <div id="export-dropdown" class="export-dropdown">
+            <button id="export-csv" class="export-option">
+              <i class="fas fa-file-csv"></i> CSV File
+            </button>
+            <button id="export-ics" class="export-option">
+              <i class="fas fa-calendar-alt"></i> iCalendar (.ics)
+            </button>
+            <button id="export-excel" class="export-option">
+              <i class="fas fa-file-excel"></i> Excel File
+            </button>
+            <div class="export-divider"></div>
+            <button id="export-google" class="export-option">
+              <i class="fab fa-google"></i> Google Calendar
+            </button>
+            <button id="export-outlook" class="export-option">
+              <i class="fab fa-microsoft"></i> Outlook Calendar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calendar Preview -->
+      <div id="calendar-view" class="calendar-view" style="display:none;">
+        <div class="calendar-header">
+          <div></div>
+          <div>Sunday</div>
+          <div>Monday</div>
+          <div>Tuesday</div>
+          <div>Wednesday</div>
+          <div>Thursday</div>
+          <div>Friday</div>
+          <div>Saturday</div>
+        </div>
+        <div class="calendar-body" id="calendar-body"></div>
+      </div>
+      
+      <!-- Last saved info -->
+      <div id="last-saved-info" class="last-saved-info" style="text-align: center; margin-top: 1rem; color: var(--gray-600); font-size: 0.875rem;">
+        <!-- Will be populated by JavaScript -->
+      </div>
+    </main>
+  </div>
+
+  <script src="availability.js"></script>
+</body>
+</html>
