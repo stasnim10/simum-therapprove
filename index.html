@@ -3,332 +3,368 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Therapprove - Enhanced Location Filtering</title>
+    <title>Therapprove - Closed-Loop Referral Management System</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Enhanced Sidebar with Zip Code Filtering -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <h2>Filters</h2>
-                <button class="clear-filters">Clear All</button>
+    <!-- Skip Links -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#filters" class="skip-link">Skip to filters</a>
+    
+    <!-- Header -->
+    <header class="header" role="banner">
+        <div class="header-content">
+            <div class="header-left">
+                <button class="mobile-menu-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="sidebar">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+                <button class="sidebar-toggle" aria-label="Toggle sidebar" aria-pressed="false">
+                    <i class="fas fa-angle-double-left" aria-hidden="true"></i>
+                </button>
             </div>
+            
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <label for="searchInput" class="sr-only">Search referrals</label>
+                    <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                    <input type="text" placeholder="Search referrals..." class="search-input" id="searchInput" 
+                           aria-describedby="search-help" autocomplete="off">
+                    <div id="search-help" class="sr-only">Search by patient name, location, or insurance</div>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <div class="kpi-summary" role="region" aria-label="Key performance indicators">
+                    <div class="kpi-item">
+                        <span class="kpi-label">Avg Time to Contact:</span>
+                        <span class="kpi-value good" aria-live="polite">18h</span>
+                    </div>
+                    <div class="kpi-item">
+                        <span class="kpi-label">Completion Rate:</span>
+                        <span class="kpi-value excellent" aria-live="polite">87%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-            <!-- NEW: Enhanced Location Filter -->
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
+        <div class="sidebar-header">
+            <img src="https://via.placeholder.com/150x40/00b4a0/ffffff?text=Therapprove" alt="Therapprove" class="logo">
+        </div>
+        <div class="sidebar-menu">
+            <a href="#" class="nav-item active" aria-current="page">
+                <i class="fas fa-handshake" aria-hidden="true"></i>
+                <span>Referral Workboard</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-chart-line" aria-hidden="true"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-users" aria-hidden="true"></i>
+                <span>Provider Network</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-file-medical" aria-hidden="true"></i>
+                <span>Prior Auth Queue</span>
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-cog" aria-hidden="true"></i>
+                <span>Settings</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content" id="main-content" role="main">
+        <div class="page-header">
+            <h1>Closed-Loop Referral Workboard</h1>
+            <div class="view-controls" role="tablist" aria-label="View options">
+                <button class="view-btn active" data-view="list" role="tab" aria-selected="true" aria-controls="listView" type="button">
+                    <i class="fas fa-list" aria-hidden="true"></i> 
+                    <span>List View</span>
+                </button>
+                <button class="view-btn" data-view="kanban" role="tab" aria-selected="false" aria-controls="kanbanView" type="button">
+                    <i class="fas fa-columns" aria-hidden="true"></i>
+                    <span>Kanban View</span>
+                </button>
+                <button class="view-btn" data-view="map" role="tab" aria-selected="false" aria-controls="mapView" type="button">
+                    <i class="fas fa-map" aria-hidden="true"></i>
+                    <span>Map View</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Smart Filters Panel -->
+        <section class="smart-filters-panel" id="filters" role="region" aria-labelledby="filters-heading">
+            <h2 id="filters-heading" class="sr-only">Filter referrals</h2>
             <div class="filter-section">
-                <h3>Location & Distance</h3>
+                <div class="filter-group">
+                    <label for="locationInput">Location & Distance</label>
+                    <div class="location-controls">
+                        <input type="text" placeholder="Provider location" value="46077" id="locationInput" 
+                               aria-describedby="location-help" pattern="[0-9]{5}" inputmode="numeric" maxlength="5">
+                        <div id="location-help" class="sr-only">Enter 5-digit ZIP code</div>
+                        <label for="radiusSelect" class="sr-only">Search radius</label>
+                        <select id="radiusSelect" aria-describedby="radius-help">
+                            <option value="10">10 mi</option>
+                            <option value="25" selected>25 mi</option>
+                            <option value="50">50 mi</option>
+                            <option value="100">100 mi</option>
+                        </select>
+                        <div id="radius-help" class="sr-only">Select search radius in miles</div>
+                    </div>
+                </div>
                 
-                <!-- Zip Code Search -->
-                <div class="zip-search">
-                    <label for="zip-input">Search by Zip Code</label>
-                    <div class="zip-input-group">
-                        <input type="text" id="zip-input" placeholder="Enter zip code" maxlength="5">
-                        <button class="zip-search-btn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+                <div class="filter-group">
+                    <label for="stageFilter">Stage</label>
+                    <select id="stageFilter">
+                        <option value="">All Stages</option>
+                        <option value="new">New</option>
+                        <option value="benefit-check">Benefit Check</option>
+                        <option value="pcp-referral">PCP Referral</option>
+                        <option value="ready-schedule">Ready to Schedule</option>
+                        <option value="scheduled">Scheduled</option>
+                    </select>
                 </div>
-
-                <!-- Radius Selector -->
-                <div class="radius-selector">
-                    <label>Within Distance</label>
-                    <div class="radius-options">
-                        <button class="radius-btn" data-radius="10">10 miles</button>
-                        <button class="radius-btn active" data-radius="25">25 miles</button>
-                        <button class="radius-btn" data-radius="50">50 miles</button>
-                    </div>
+                
+                <div class="filter-group">
+                    <label for="insuranceFilter">Insurance</label>
+                    <select id="insuranceFilter">
+                        <option value="">All Insurance</option>
+                        <option value="hmo">HMO</option>
+                        <option value="ppo">PPO</option>
+                        <option value="pos">POS</option>
+                        <option value="epo">EPO</option>
+                    </select>
                 </div>
-
-                <!-- Quick Location Filters -->
-                <div class="quick-locations">
-                    <label>Near Clinic Locations</label>
-                    <div class="location-chips">
-                        <button class="location-chip" data-location="indianapolis">
-                            <i class="fas fa-map-marker-alt"></i>
-                            Indianapolis
-                        </button>
-                        <button class="location-chip" data-location="louisville">
-                            <i class="fas fa-map-marker-alt"></i>
-                            Louisville
-                        </button>
-                        <button class="location-chip" data-location="lexington">
-                            <i class="fas fa-map-marker-alt"></i>
-                            Lexington
-                        </button>
-                    </div>
+                
+                <div class="filter-group">
+                    <label for="priorityFilter">Priority</label>
+                    <select id="priorityFilter">
+                        <option value="">All Priority</option>
+                        <option value="urgent">Urgent</option>
+                        <option value="overdue">Overdue</option>
+                        <option value="due-today">Due Today</option>
+                        <option value="normal">Normal</option>
+                    </select>
                 </div>
-            </div>
-
-            <!-- Existing Filters (keeping current design) -->
-            <div class="filter-section">
-                <h3>Patient Age</h3>
-                <div class="checkbox-group">
-                    <label><input type="checkbox"> 0-2 years</label>
-                    <label><input type="checkbox"> 3-5 years</label>
-                    <label><input type="checkbox"> 6-12 years</label>
-                    <label><input type="checkbox"> 13+ years</label>
+                
+                <div class="filter-group">
+                    <label for="ownerFilter">Owner</label>
+                    <select id="ownerFilter">
+                        <option value="">All Owners</option>
+                        <option value="me">My Referrals</option>
+                        <option value="unassigned">Unassigned</option>
+                        <option value="sarah">Sarah K.</option>
+                        <option value="mike">Mike R.</option>
+                        <option value="lisa">Lisa M.</option>
+                    </select>
                 </div>
             </div>
-
-            <div class="filter-section">
-                <h3>Therapies Needed</h3>
-                <div class="checkbox-group">
-                    <label><input type="checkbox"> ABA</label>
-                    <label><input type="checkbox"> Speech</label>
-                    <label><input type="checkbox"> Occupational</label>
-                    <label><input type="checkbox"> Physical</label>
-                </div>
+            
+            <div class="saved-views">
+                <button class="saved-view-btn active" data-view="all" aria-pressed="false" type="button">All Referrals</button>
+                <button class="saved-view-btn" data-view="needs-referral" aria-pressed="false" type="button">Needs Referral</button>
+                <button class="saved-view-btn" data-view="blocked-pa" aria-pressed="false" type="button">Blocked by PA</button>
+                <button class="saved-view-btn" data-view="ready-schedule" aria-pressed="false" type="button">Ready to Schedule</button>
+                <button class="saved-view-btn" data-view="due-today" aria-pressed="false" type="button">Due Today</button>
+                <button class="clear-filters-btn" type="button" title="Reset all filters to default">
+                    <i class="fas fa-times-circle"></i> Clear Filters
+                </button>
             </div>
+        </section>
 
-            <div class="filter-section">
-                <h3>Insurance</h3>
-                <div class="checkbox-group">
-                    <label><input type="checkbox"> Medicaid</label>
-                    <label><input type="checkbox"> Private</label>
-                    <label><input type="checkbox"> Self-Pay</label>
-                </div>
+        <!-- Insights (merge-in) -->
+        <div class="insights-banner" id="insightsBanner" aria-live="polite">
+            <div class="insights-content">
+                <div class="insight-item"><span class="insight-number" id="insightTotal">–</span><span class="insight-label">Total referrals</span></div>
+                <div class="insight-item"><span class="insight-number" id="insightWithin">–</span><span class="insight-label">Within <span id="insightRadius">25</span> mi</span></div>
+                <div class="insight-item"><span class="insight-number" id="insightAvgDist">–</span><span class="insight-label">Avg distance (mi)</span></div>
+                <div class="insight-item"><span class="insight-number" id="insightUrgent">–</span><span class="insight-label">Urgent</span></div>
             </div>
-        </aside>
+        </div>
 
-        <!-- Main Content Area -->
-        <main class="main-content">
-            <!-- NEW: Location Insights Banner -->
-            <div class="insights-banner">
-                <div class="insight-card">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div class="insight-content">
-                        <span class="insight-number">8</span>
-                        <span class="insight-text">patients within 25 miles of Indianapolis</span>
-                    </div>
-                    <button class="insight-action">View</button>
-                </div>
-                <div class="insight-card urgent">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <div class="insight-content">
-                        <span class="insight-number">3</span>
-                        <span class="insight-text">high-priority cases near Zionsville</span>
-                    </div>
-                    <button class="insight-action">Prioritize</button>
-                </div>
+        <!-- Quick Location Chips (merge-in) -->
+        <div class="location-chips-container" role="group" aria-label="Quick location filters">
+            <div class="location-chips">
+                <button class="location-chip" data-chip="indianapolis" aria-pressed="false"><i class="fas fa-map-marker-alt"></i> Indianapolis</button>
+                <button class="location-chip" data-chip="kentucky" aria-pressed="false"><i class="fas fa-map-marker-alt"></i> Kentucky</button>
+                <button class="location-chip" data-chip="illinois" aria-pressed="false"><i class="fas fa-map-marker-alt"></i> Illinois</button>
+                <button class="location-chip" data-chip="north-carolina" aria-pressed="false"><i class="fas fa-map-marker-alt"></i> North Carolina</button>
+                <button class="location-chip" data-chip="urgent" aria-pressed="false"><i class="fas fa-exclamation-triangle"></i> Urgent</button>
             </div>
+        </div>
 
-            <!-- Enhanced Header with Map Toggle -->
-            <div class="content-header">
-                <div class="header-left">
-                    <h1>Patient Wait List</h1>
-                    <span class="patient-count">Showing 24 of 156 patients</span>
+        <!-- List View -->
+        <div id="listView" class="view-content" role="tabpanel" aria-labelledby="list-tab">
+            <div class="bulk-actions">
+                <div class="bulk-select">
+                    <input type="checkbox" id="selectAll" aria-label="Select all referrals">
+                    <span class="selected-count" aria-live="polite">0 selected</span>
                 </div>
-                <div class="header-right">
-                    <div class="view-toggle">
-                        <button class="toggle-btn active" data-view="table">
-                            <i class="fas fa-list"></i>
-                            Table
-                        </button>
-                        <button class="toggle-btn" data-view="map">
-                            <i class="fas fa-map"></i>
-                            Map
-                        </button>
-                    </div>
-                    <button class="export-btn">
-                        <i class="fas fa-download"></i>
-                        Export
+                <div class="bulk-buttons">
+                    <button class="bulk-btn" disabled type="button">
+                        <i class="fas fa-user-plus" aria-hidden="true"></i>
+                        Assign
+                    </button>
+                    <button class="bulk-btn" disabled type="button">
+                        <i class="fas fa-tag" aria-hidden="true"></i>
+                        Update Stage
+                    </button>
+                    <button class="bulk-btn" disabled type="button">
+                        <i class="fas fa-envelope" aria-hidden="true"></i>
+                        Send Message
                     </button>
                 </div>
             </div>
-
-            <!-- Enhanced Patient Table -->
+            
             <div class="table-container">
-                <table class="patient-table">
+                <table class="referrals-table" role="table" aria-label="Referrals list">
                     <thead>
                         <tr>
-                            <th>Patient</th>
-                            <th>Age</th>
-                            <th>Therapy</th>
-                            <th>Location <i class="fas fa-sort"></i></th>
-                            <th>Distance</th>
-                            <th>Wait Time</th>
-                            <th>Status</th>
-                            <th>Progress</th>
-                            <th>Caregiver</th>
-                            <th>Actions</th>
+                            <th scope="col" class="select-col">
+                                <span class="sr-only">Select</span>
+                            </th>
+                            <th scope="col" class="sortable" data-sort="patient" aria-sort="none">
+                                Patient <i class="fas fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th scope="col" class="sortable" data-sort="stage" aria-sort="none">
+                                Stage <i class="fas fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th scope="col" class="sortable" data-sort="insurance" aria-sort="none">
+                                Insurance <i class="fas fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th scope="col" class="sortable" data-sort="location" aria-sort="none">
+                                Location <i class="fas fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th scope="col" class="sortable" data-sort="owner" aria-sort="none">
+                                Owner <i class="fas fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th scope="col" class="sortable" data-sort="priority" aria-sort="none">
+                                Priority <i class="fas fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th scope="col" class="sortable" data-sort="waitDays" aria-sort="none">
+                                Wait Days <i class="fas fa-sort" aria-hidden="true"></i>
+                            </th>
+                            <th scope="col">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr class="patient-row" data-distance="8.2">
-                            <td>
-                                <div class="patient-info">
-                                    <strong>Emma Johnson</strong>
-                                    <span class="patient-id">#12847</span>
-                                </div>
-                            </td>
-                            <td>7</td>
-                            <td><span class="therapy-tag aba">ABA</span></td>
-                            <td>
-                                <div class="location-info">
-                                    <span class="zip-code">46032</span>
-                                    <span class="city">Carmel, IN</span>
-                                </div>
-                            </td>
-                            <td class="distance-cell">
-                                <span class="distance-badge near">8.2 mi</span>
-                            </td>
-                            <td>
-                                <span class="wait-time urgent">8.2 months</span>
-                            </td>
-                            <td><span class="status-badge eval">Eval Scheduled</span></td>
-                            <td>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 60%"></div>
-                                </div>
-                                <span class="progress-text">3/5 steps</span>
-                            </td>
-                            <td>Sarah M.</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn" title="View Details">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="action-btn" title="Contact">
-                                        <i class="fas fa-phone"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        
-                        <tr class="patient-row" data-distance="12.5">
-                            <td>
-                                <div class="patient-info">
-                                    <strong>Lucas Martinez</strong>
-                                    <span class="patient-id">#12848</span>
-                                </div>
-                            </td>
-                            <td>5</td>
-                            <td><span class="therapy-tag speech">Speech</span></td>
-                            <td>
-                                <div class="location-info">
-                                    <span class="zip-code">46077</span>
-                                    <span class="city">Zionsville, IN</span>
-                                </div>
-                            </td>
-                            <td class="distance-cell">
-                                <span class="distance-badge near">12.5 mi</span>
-                            </td>
-                            <td>
-                                <span class="wait-time moderate">3.1 months</span>
-                            </td>
-                            <td><span class="status-badge inquiry">Inquiry</span></td>
-                            <td>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 20%"></div>
-                                </div>
-                                <span class="progress-text">1/5 steps</span>
-                            </td>
-                            <td>Mike R.</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn" title="View Details">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="action-btn" title="Contact">
-                                        <i class="fas fa-phone"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="patient-row" data-distance="28.7">
-                            <td>
-                                <div class="patient-info">
-                                    <strong>Sophia Chen</strong>
-                                    <span class="patient-id">#12849</span>
-                                </div>
-                            </td>
-                            <td>4</td>
-                            <td><span class="therapy-tag ot">OT</span></td>
-                            <td>
-                                <div class="location-info">
-                                    <span class="zip-code">46240</span>
-                                    <span class="city">Indianapolis, IN</span>
-                                </div>
-                            </td>
-                            <td class="distance-cell">
-                                <span class="distance-badge far">28.7 mi</span>
-                            </td>
-                            <td>
-                                <span class="wait-time moderate">1.8 months</span>
-                            </td>
-                            <td><span class="status-badge qualifying">Qualifying</span></td>
-                            <td>
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: 40%"></div>
-                                </div>
-                                <span class="progress-text">2/5 steps</span>
-                            </td>
-                            <td>Jessica L.</td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="action-btn" title="View Details">
-                                        <i class="fas fa-eye"></i>
-                                    </button>
-                                    <button class="action-btn" title="Contact">
-                                        <i class="fas fa-phone"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                    <tbody id="referralsTableBody">
+                        <!-- Dynamic content -->
                     </tbody>
                 </table>
             </div>
+        </div>
 
-            <!-- NEW: Map View (Hidden by default) -->
-            <div class="map-container" id="map-view" style="display: none;">
-                <div class="map-placeholder">
-                    <div class="map-controls">
-                        <button class="map-control-btn">
-                            <i class="fas fa-search-plus"></i>
-                        </button>
-                        <button class="map-control-btn">
-                            <i class="fas fa-search-minus"></i>
-                        </button>
-                        <button class="map-control-btn">
-                            <i class="fas fa-crosshairs"></i>
-                        </button>
+        <!-- Kanban View -->
+        <div id="kanbanView" class="view-content" role="tabpanel" aria-labelledby="kanban-tab" style="display: none;">
+            <div class="kanban-board">
+                <div class="kanban-column" data-stage="new">
+                    <div class="column-header">
+                        <h3>New <span class="count" id="newCount">0</span></h3>
                     </div>
-                    
-                    <!-- Simulated Map with Patient Pins -->
-                    <div class="map-pins">
-                        <div class="map-pin near" style="top: 30%; left: 45%;" data-patient="Emma Johnson">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span class="pin-label">Emma J.</span>
-                        </div>
-                        <div class="map-pin near" style="top: 25%; left: 40%;" data-patient="Lucas Martinez">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span class="pin-label">Lucas M.</span>
-                        </div>
-                        <div class="map-pin far" style="top: 60%; left: 55%;" data-patient="Sophia Chen">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span class="pin-label">Sophia C.</span>
+                    <div class="column-content" id="newColumn"></div>
+                </div>
+                <div class="kanban-column" data-stage="benefit-check">
+                    <div class="column-header">
+                        <h3>Benefit Check <span class="count" id="benefitCount">0</span></h3>
+                    </div>
+                    <div class="column-content" id="benefitColumn"></div>
+                </div>
+                <div class="kanban-column" data-stage="pcp-referral">
+                    <div class="column-header">
+                        <h3>PCP Referral <span class="count" id="pcpCount">0</span></h3>
+                    </div>
+                    <div class="column-content" id="pcpColumn"></div>
+                </div>
+                <div class="kanban-column" data-stage="ready-schedule">
+                    <div class="column-header">
+                        <h3>Ready to Schedule <span class="count" id="readyCount">0</span></h3>
+                    </div>
+                    <div class="column-content" id="readyColumn"></div>
+                </div>
+                <div class="kanban-column" data-stage="scheduled">
+                    <div class="column-header">
+                        <h3>Scheduled <span class="count" id="scheduledCount">0</span></h3>
+                    </div>
+                    <div class="column-content" id="scheduledColumn"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Map View -->
+        <div id="mapView" class="view-content" role="tabpanel" aria-labelledby="map-tab" style="display: none;">
+            <div class="map-container-real">
+                <div class="map-controls-real">
+                    <div class="map-legend-real">
+                        <h4>Referral Locations</h4>
+                        <div class="legend-items-real">
+                            <div class="legend-item-real">
+                                <span class="legend-dot-real urgent"></span>
+                                <span>Urgent (≥30 days)</span>
+                            </div>
+                            <div class="legend-item-real">
+                                <span class="legend-dot-real overdue"></span>
+                                <span>Overdue</span>
+                            </div>
+                            <div class="legend-item-real">
+                                <span class="legend-dot-real due-today"></span>
+                                <span>Due Today</span>
+                            </div>
+                            <div class="legend-item-real">
+                                <span class="legend-dot-real normal"></span>
+                                <span>Normal</span>
+                            </div>
                         </div>
                     </div>
-                    
-                    <!-- Map Legend -->
-                    <div class="map-legend">
-                        <div class="legend-item">
-                            <div class="legend-color near"></div>
-                            <span>Within 15 miles</span>
+                    <div class="map-stats-real">
+                        <div class="stat-item-real">
+                            <span class="stat-number-real" id="mapTotalReferrals">8</span>
+                            <span class="stat-label-real">Total Referrals</span>
                         </div>
-                        <div class="legend-item">
-                            <div class="legend-color far"></div>
-                            <span>15+ miles</span>
+                        <div class="stat-item-real">
+                            <span class="stat-number-real" id="mapAvgDistance">18.3</span>
+                            <span class="stat-label-real">Avg Distance (mi)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="map-display-real">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d196281.1471761857!2d-86.41780842968748!3d39.790942999999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x886b50fcdeb438f9%3A0xe559c71c1b9ca30!2sZionsville%2C%20IN!5e0!3m2!1sen!2sus!4v1691234567890!5m2!1sen!2sus&markers=color:red%7Clabel:T%7C39.9506,-86.2625&markers=color:blue%7Clabel:R%7C39.9784,-86.1180&markers=color:green%7Clabel:R%7C39.9164,-86.1085&markers=color:yellow%7Clabel:R%7C40.0456,-86.0086&markers=color:red%7Clabel:R%7C39.9568,-85.9685"
+                        width="100%" 
+                        height="500" 
+                        style="border:0; border-radius: 8px;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Referral locations map">
+                    </iframe>
+                    <div class="map-overlay">
+                        <div class="provider-marker">
+                            <i class="fas fa-hospital"></i>
+                            <span>Therapprove HQ</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
+    </main>
+
+    <!-- Loading overlay (for distance calc) -->
+    <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+        <div class="spinner" role="status" aria-label="Calculating distances"></div>
+        <p>Calculating distances…</p>
     </div>
+
+    <!-- Floating Action Button -->
+    <button class="floating-action" title="Quick Actions" type="button">
+        <i class="fas fa-plus"></i>
+    </button>
 
     <script src="script.js"></script>
 </body>
